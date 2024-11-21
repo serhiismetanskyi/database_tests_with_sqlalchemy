@@ -1,5 +1,4 @@
 # Database Tests with SQLAlchemy
-***
 
 ### Contents:
 - [Description](#description)
