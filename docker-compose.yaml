@@ -1,0 +1,36 @@
+version: "3.3"
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  migrate:
+    build:
+      context: .
+      dockerfile: migrate.Dockerfile
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+
+  tests:
+    build:
+      context: .
+      dockerfile: tests.Dockerfile
+    depends_on:
+      - migrate
+    env_file:
+      - .env
+
+volumes:
+  db_data:
